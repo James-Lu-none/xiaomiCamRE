@@ -54,7 +54,8 @@ int main()
                 }
             }
             else{
-                outputFile << line << std::endl;
+                // line.pop_back();
+                outputFile << line;
             }
         }
     }
