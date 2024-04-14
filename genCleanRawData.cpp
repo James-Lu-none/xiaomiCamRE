@@ -7,8 +7,25 @@ using namespace std;
 
 int main()
 {
-    string filePath = "/home/james/projects/cProject/xiaomiCamRE/flashRawData/flash1.txt";
-    ifstream inputFile(filePath); // Replace "file.txt" with your file path
+    string inputFilePath = "../flashRawData/flash1.txt";
+    string outputFilePath = "../generatedFiles/cleanRawData";
+
+    ifstream inputFile(inputFilePath);
+    ofstream outputFile(outputFilePath);
+
+    if (!inputFile.is_open())
+    {
+        cerr << "Error opening input file!" << endl;
+        return EXIT_FAILURE;
+    }
+
+    if (!outputFile.is_open())
+    {
+        cerr << "Error opening output file!" << endl;
+        inputFile.close();
+        return EXIT_FAILURE;
+    }
+
     string line;
     uint64_t prevAddr = 0;
     uint32_t counter = 0;
@@ -36,13 +53,19 @@ int main()
                     prevAddr = hexValue;
                 }
             }
+            else{
+                outputFile << line << std::endl;
+            }
         }
-        inputFile.close();
     }
     else
     {
         cerr << "Unable to open file!" << endl;
     }
     cout << counter << endl;
-    return 0;
+    
+    inputFile.close();
+    outputFile.close();
+
+    return EXIT_SUCCESS;
 }
